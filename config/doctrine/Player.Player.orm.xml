@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Guess\Domain\Player\Player" table="player" repository-class="Guess\Infrastructure\Doctrine\PlayerRepository">
+
+        <id name="id" type="integer" column="id">
+            <generator />
+        </id>
+
+        <field name="username" column="username" length="50" nullable="true" />
+        <field name="password" column="password" length="500" nullable="true" />
+        <field name="isActive" column="isActive" length="500" nullable="true" />
+        <field name="point" column="point" length="10" nullable="true" />
+        <field name="email" column="email" length="100" />
+        <field name="avatar" column="avatar" length="50" nullable="true" />
+        <field name="createdAt" column="created_at" type="datetime" />
+
+        <one-to-many field="guesses" target-entity="Guess\Domain\Player\Guess" mapped-by="player">
+            <cascade>
+                <cascade-persist />
+                <cascade-remove />
+            </cascade>
+        </one-to-many>
+
+        <unique-constraints>
+            <unique-constraint columns="username" name="username" />
+            <unique-constraint columns="email" name="email" />
+        </unique-constraints>
+
+    </entity>
+
+</doctrine-mapping>

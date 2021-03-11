@@ -1,0 +1,17 @@
+api_login_check:
+  path: /login_check
+
+api_player_create:
+  path: /api/players
+  methods: POST
+  controller: Guess\Controller\Player\PlayerController::index
+
+api_game_list:
+  path: /api/games
+  controller: Guess\Controller\Game\ListController::index
+  methods: GET
+
+api_player_guess:
+  path: /api/guesses
+  controller: Guess\Controller\Player\GuessController::index
+  methods: POST

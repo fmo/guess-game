@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Guess\Domain\Game\Game" table="game" repository-class="Guess\Infrastructure\Doctrine\GameRepository">
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="gameTime" column="game_time" type="datetime"  />
+        <field name="score" column="score" length="50" nullable="true" />
+
+        <many-to-one field="league" target-entity="Guess\Domain\League\League">
+            <cascade>
+                <cascade-all />
+            </cascade>
+            <join-column name="league" referenced-column-name="id" on-delete="CASCADE" />
+        </many-to-one>
+
+        <many-to-one field="homeTeam" target-entity="Guess\Domain\Team\Team">
+            <cascade>
+                <cascade-all />
+            </cascade>
+            <join-column name="home_team" referenced-column-name="id" on-delete="CASCADE" />
+        </many-to-one>
+
+        <many-to-one field="awayTeam" target-entity="Guess\Domain\Team\Team">
+            <cascade>
+                <cascade-all />
+            </cascade>
+            <join-column name="away_team" referenced-column-name="id" on-delete="CASCADE" />
+        </many-to-one>
+
+        <one-to-many field="guesses" target-entity="Guess\Domain\Player\Guess" mapped-by="game">
+            <cascade>
+                <cascade-persist />
+                <cascade-remove />
+            </cascade>
+        </one-to-many>
+
+        <unique-constraints>
+            <unique-constraint columns="home_team,away_team,game_time" name="gameIndex" />
+        </unique-constraints>
+
+    </entity>
+
+</doctrine-mapping>
